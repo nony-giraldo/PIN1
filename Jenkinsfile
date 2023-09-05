@@ -35,12 +35,12 @@ pipeline {
      stage('Pass To K8s'){
         steps {
         sh '''
-        kubectl create deployment testapp --image=127.0.0.1:5000/ngiraldo/pin1
-        echo "Wait"
-        sleep 10
-        kubectl expose deployment testapp --port=3000
-        wget https://github.com/nony-giraldo/PIN1/blob/master/nodePort.yml
-        kubectl apply -f nodePort.yml"
+        sshpass -p 'master' ssh 172.17.0.1 -l root -o StrictHostKeyChecking=no "kubectl create deployment testapp --image=127.0.0.1:5000/ngiraldo/pin1"
+       echo "Wait"
+       sleep 10
+       sshpass -p 'master' ssh 172.17.0.1 -l root -o StrictHostKeyChecking=no "kubectl expose deployment testapp --port=3000"
+       sshpass -p 'master' ssh 172.17.0.1 -l root -o StrictHostKeyChecking=no "wget https://raw.githubusercontent.com/tercemundo/platzi-scripts-integracion/master/webapp/nodePort.yml"
+       sshpass -p 'master' ssh 172.17.0.1 -l root -o StrictHostKeyChecking=no "kubectl apply -f nodePort.yml" 
 
            '''
 
