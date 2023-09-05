@@ -32,20 +32,11 @@ pipeline {
         }
       }
 
-     stage('Escaneo Trivy') {
-            steps {
-                // Ejecutar Trivy en un contenedor Docker
-                script {
-                    def imageToScan = '127.0.0.1:5000/ngiraldo/pin1'
-                    def trivyCmd = "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --exit-code 0 --severity HIGH,MEDIUM,LOW $imageToScan"
-                    def trivyResult = sh(script: trivyCmd, returnStatus: true)
-                    
-                    if (trivyResult != 0) {
-                        currentBuild.result = 'FAILURE'
-                        error('Se encontraron vulnerabilidades de seguridad en la imagen.')
-                    }
-                }
+     tage('Vulnerability Scan - Docker ') {
+        steps {
+          sh "docker run --rm  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --severity=critical 127.0.0.1:5000/ngiraldo/pin1"
             }
+        }
         
 
      stage('Pass To K8s'){
