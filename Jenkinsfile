@@ -32,7 +32,7 @@ pipeline {
         }
       }
 
-     tage('Vulnerability Scan - Docker ') {
+     stage('Vulnerability Scan - Docker ') {
         steps {
           sh "docker run --rm  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --severity=critical 127.0.0.1:5000/ngiraldo/pin1"
             }
