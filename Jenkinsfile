@@ -32,14 +32,14 @@ pipeline {
         }
       }
 
-     stage('Vulnerability Scan - Docker ') {
+     /*stage('Vulnerability Scan - Docker ') {
         steps {
           sh "docker run --rm  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --severity=CRITICAL 127.0.0.1:5000/ngiraldo/pin1"
             }
-        }
+        }*/
         
 
-     /*stage('Pass To K8s'){
+     stage('Pass To K8s'){
         steps {
         sh '''
         sshpass -p 'master' ssh 172.17.0.1 -l root -o StrictHostKeyChecking=no "kubectl create deployment testapp --image=127.0.0.1:5000/ngiraldo/pin1"
@@ -52,7 +52,7 @@ pipeline {
            '''
 
             }
-        }*/
+        }
     }
 }
 
