@@ -42,12 +42,12 @@ pipeline {
      stage('Pass To K8s'){
         steps {
         sh '''
-        kubectl create deployment testapp --image=127.0.0.1:5000/ngiraldo/pin1
+        minikube kubectl -- create deployment testapp --image=127.0.0.1:5000/ngiraldo/pin1
        echo "Wait"
        sleep 10
-       kubectl expose deployment testapp --port=3000
+       minikube kubectl -- expose deployment testapp --port=3000
        wget https://raw.githubusercontent.com/tercemundo/platzi-scripts-integracion/master/webapp/nodePort.yml
-       kubectl apply -f nodePort.yml
+       minikube kubectl -- apply -f nodePort.yml
 
            '''
 
